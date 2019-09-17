@@ -8,24 +8,27 @@ from ROOT import Main
 maker = Main.Maker()
 
 
-maker.SetInputFile("/pnfs/genie/persistent/users/jiangl/GENIE_sample/gntp.1000.gst.286.root");
+calc_syst_list = ["PerfectReconstruction_neutronsDetected"]
+#calc_syst_list = ["PerfectReconstruction_neutronsUndetected"]
+#calc_syst_list = ["OurSetup_neutronsDetected"]
+#calc_syst_list = ["OurSetup_neutronsUndetected"]
+#calc_syst_list = ["DUNE_FastMC"]
 
-maker.SetOutputFile("/genie/app/users/jiangl/NuPRISM_output/output_test.root");
+for systname in calc_syst_list:
+	maker.SetInputFile("/pnfs/genie/persistent/users/jiangl/GENIE_sample/gntp.1000.gst.286.root");
 
-maker.SetNeutrinoFlavor(0);  # the options are 0(numu), 1(anumu), 2(nue, 3(anue)
+	maker.SetOutputFile("/genie/app/users/jiangl/NuPRISM_output/output_test"+systname+".root");
 
-maker.SetInteractionType(0); # the options are 0 (QE), 1 (RES), 2 (DIS) 3 (MEC)
+	maker.SetNeutrinoFlavor(0);  # the options are 0(numu), 1(anumu), 2(nue, 3(anue)
 
-#maker.SetExperimentName("PerfectReconstruction_neutronsDetected");
-#maker.SetExperimentName("PerfectReconstruction_neutronsUndetected");
-#maker.SetExperimentName("OurSetup_neutronsDetected");
-#maker.SetExperimentName("OurSetup_neutronsUndetected");
-maker.SetExperimentName("DUNE_FastMC");
+	maker.SetInteractionType(0); # the options are 0 (QE), 1 (RES), 2 (DIS) 3 (MEC)
 
+	maker.SetExperimentName(systname);
 
 
 
 
-maker.PrintConfig()
 
-maker.MakeFile()
+	maker.PrintConfig()
+
+	maker.MakeFile()
