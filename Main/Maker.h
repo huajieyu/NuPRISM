@@ -94,7 +94,10 @@ namespace Main {
     }
 
 
-    void switchFSI(bool);
+    void SetFSIOn(bool v){
+          switchon_FSI = v;
+
+    }
 
     void PrintConfig();
     void DrawProgressBar(double progress, double barWidth);
@@ -117,7 +120,7 @@ namespace Main {
     std::string kinematicInfoName_string= "kinematicInfo.txt";
     std::ofstream kinematicInfoFile;
 
-    bool FSI_on = false;
+    bool switchon_FSI = true;
 
     const double GeV = 1.0;
     const double MeV = 0.001*GeV;

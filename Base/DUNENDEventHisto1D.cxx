@@ -20,7 +20,7 @@ namespace Base {
           h_true_calc_Enu[i]->GetXaxis()->SetTitle("True E_{#nu}[GeV]");
       }
       h_muon_reso = new TH1D("h_muon_reso", "h_muon_reso", 50, -0.3, 0.3);
-      h_proton_reso = new TH1D("h_proton_reso", "h_proton_reso", 50, -0.3, 0.3);
+      h_proton_reso = new TH1D("h_proton_reso", "h_proton_reso", 50, -0.5, 0.5);
       h_neutron_reso = new TH1D("h_neutron_reso", "h_neutron_reso", 50, -0.3, 0.3);
       h_pionC_reso = new TH1D("h_pionC_reso", "h_pionC_reso", 50, -0.3, 0.3);
       h_pionZero_reso = new TH1D("h_pionZero_reso", "h_pionZero_reso", 50, -0.3, 0.3);
