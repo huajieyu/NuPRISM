@@ -1,0 +1,17 @@
+{ decls }
+namespace Base {  }
+
+[ libLiteFMWK_Base.so ]
+# List of selected classes
+class Base::CDetectorEffects
+class Base::CGaussianDistrib
+class Base::CRandomGen
+class Base::DUNENDEventHisto1D
+class Base::MigrationMatrixCalc
+class Base::sample
+header CDetectorEffects.h
+header CGaussianDistrib.h
+header CRandomGen.h
+header DUNENDEventHisto1D.h
+header MigrationMatrixCalc.h
+header sample.h
