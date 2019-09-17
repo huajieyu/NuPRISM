@@ -17,7 +17,7 @@ namespace Base {
       for(int i=0; i<calOptions; i++){
           h_true_calc_Enu[i]=new TH2D(Form("h_true_calc_Enu_%d", i), Form("h_true_calc_Enu_%d", i), 78, 0.2, 8.0, 78, 0.2,8.0);
           h_true_calc_Enu[i]->GetYaxis()->SetTitle("Calculated E_{#nu}[GeV]");
-          h_true_calc_Enu[i]->GetYaxis()->SetTitle("True E_{#nu}[GeV]");
+          h_true_calc_Enu[i]->GetXaxis()->SetTitle("True E_{#nu}[GeV]");
       }
       h_muon_reso = new TH1D("h_muon_reso", "h_muon_reso", 50, -0.3, 0.3);
       h_proton_reso = new TH1D("h_proton_reso", "h_proton_reso", 50, -0.3, 0.3);
