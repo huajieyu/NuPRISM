@@ -109,6 +109,12 @@ namespace Main {
     DUNENDEventHisto1D * _event_histo_1d;
 
 
+    const int calOptions = 11;
+    double minNeutronEfficiency = 0.0;
+    double stepNeutronEfficiency = 0.1;
+ 
+
+
     std::string filen = "";
     std::string fileoutn = "output_maker.root";
     int _initial_entry = 0; //Entry in tree to begin with    

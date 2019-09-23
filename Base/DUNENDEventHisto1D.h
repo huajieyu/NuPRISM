@@ -72,8 +72,8 @@ namespace Base {
     TH1D *h_Enu_CCRES=0;
     TH1D *h_Enu_CCDIS=0; 
     TH1D *h_Enu_CCMEC=0;
-    int calOptions = 5;
-    TH2D *h_true_calc_Enu[5];
+    int calOptions = 11;
+    TH2D *h_true_calc_Enu[11];
     TH1D *h_muon_reso;
     TH1D *h_proton_reso;
     TH1D *h_neutron_reso;
