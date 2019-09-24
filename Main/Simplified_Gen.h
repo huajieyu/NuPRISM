@@ -109,6 +109,11 @@ namespace Main {
     double stepNeutronEfficiency = 0.1;
     DUNENDEventHisto1D * _event_histo_1d;
 
+
+    TH1D *h_Enu_reso[11];
+
+
+
     double eMin = 0.2;
     double eMax = 8.0;
     double eStep = 0.1;

@@ -45,6 +45,17 @@ void Main::Simplified_Gen::MakeFile(){
     std::cout <<"File not Opened (maybe not found. File:"<<fileoutn<<std::endl;
     exit(0);
   }
+
+
+  for(int i=0; i<calOptions; i++){
+          h_Enu_reso[i]=new TH1D(Form("h_Enu_reso_%d", i), Form("h_Enu_reso_%d", i), 60, -0.1, 0.3);
+          h_Enu_reso[i]->GetXaxis()->SetTitle("Fractional Resolution of E_{#mu}");
+          h_Enu_reso[i]->GetYaxis()->SetTitle("Nevents");
+  }
+ 
+  
+
+
   std::string pattern = filen;
   
   TChain *chain_nuprism;
@@ -87,7 +98,6 @@ void Main::Simplified_Gen::MakeFile(){
         chain_nuprism->GetEntry(iCnt);
         //TArray3D<double>& CalMatrix(0, 0, 0);
         //if(iCnt != 49892) continue;
-        std::cout<<"[Simplified_Gen] event number is "<<iCnt<<std::endl;   
         double nuEnergy = t->Ev;
         const int nx = round( (nuEnergy - eMin)/eStep); 
 
@@ -120,7 +130,7 @@ void Main::Simplified_Gen::MakeFile(){
 
 
         for (int finalPartCnt=0; finalPartCnt < finalParticleNumber; ++finalPartCnt)
-        {  std::cout<<"<<<<<<<<<<<<<<<<<PDG code is "<<t->pdgf[finalPartCnt] <<std::endl;
+        {  //std::cout<<"<<<<<<<<<<<<<<<<<PDG code is "<<t->pdgf[finalPartCnt] <<std::endl;
 
            ///calculate invariant mass here
 	    double invariantMass = sqrt( t->Ef[finalPartCnt]*t->Ef[finalPartCnt] - 
@@ -134,8 +144,8 @@ void Main::Simplified_Gen::MakeFile(){
             if ( t->pdgf[finalPartCnt] == 2212 )
             {   //std::cout<<"[Simplified_Gen] << Oooooooooops find a proton ! "<<"Energy is "<<t->Ef[finalPartCnt]<<"  pMass= "<<pMass<<std::endl;
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ) {
-        		//calorimetricContribution[kCnt] += t->Ef[finalPartCnt] - pMass; 
-        		calorimetricContribution[kCnt] += t->Ef[finalPartCnt] - invariantMass; 
+        		calorimetricContribution[kCnt] += t->Ef[finalPartCnt] - pMass; 
+        		//calorimetricContribution[kCnt] += t->Ef[finalPartCnt] - invariantMass; 
                 }
 
             }
@@ -149,16 +159,16 @@ void Main::Simplified_Gen::MakeFile(){
             else if ( t->pdgf[finalPartCnt] == -2212 )
             {   //std::cout<<"[Simplified_Gen] << Oooooooooops find an anti-proton ! "<<std::endl; 
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ) {
-                        //calorimetricContribution[kCnt] += t->Ef[finalPartCnt] + pMass;
-        		calorimetricContribution[kCnt] += t->Ef[finalPartCnt] + invariantMass; 
+                        calorimetricContribution[kCnt] += t->Ef[finalPartCnt] + pMass;
+        		//calorimetricContribution[kCnt] += t->Ef[finalPartCnt] + invariantMass; 
 		}
             }
 
             else if ( t->pdgf[finalPartCnt] == 2112 )
             {    std::cout<<"[Simplified_Gen] << Oooooooooops find a neutron ! "<<std::endl; 
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ) {
-                    //calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] - nMass);
-                    calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] - invariantMass);
+                    calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] - nMass);
+                    //calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] - invariantMass);
                 }
                 neutronEnergy += t->Ef[finalPartCnt] - nMass;
                 
@@ -168,8 +178,8 @@ void Main::Simplified_Gen::MakeFile(){
             else if ( t->pdgf[finalPartCnt] == -2112 )
             {    std::cout<<"[Simplified_Gen] << Oooooooooops find an anti-neutron ! "<<std::endl;  
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ){
-                    //calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] + nMass);
-                    calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] + invariantMass);
+                    calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] + nMass);
+                    //calorimetricContribution[kCnt] += (minNeutronEfficiency + kCnt*stepNeutronEfficiency)*(t->Ef[finalPartCnt] + invariantMass);
                 }
                 neutronEnergy += t->Ef[finalPartCnt] + nMass;
             }
@@ -202,29 +212,21 @@ void Main::Simplified_Gen::MakeFile(){
         }
         if(heavyBaryon_app > 0) {continue;}
 
-                for (int mCnt(0); mCnt < calOptions; ++mCnt) {
+        for (int mCnt(0); mCnt < calOptions; ++mCnt) {
                     recNuEnergy_cal[mCnt] += calorimetricContribution[mCnt];
                     
 
-                    if(mCnt== calOptions -1 && -(recNuEnergy_cal[mCnt] - trueNuEnergy) > 1) {std::cout<<"test events appears "<<iCnt <<"true Eu "<< trueNuEnergy<< " reco Enu "<<recNuEnergy_cal[mCnt]<<std::endl;}
+                    if(mCnt== calOptions -1 && -(recNuEnergy_cal[mCnt] - trueNuEnergy) > 0.5) {continue;}
                      _event_histo_1d->h_true_calc_Enu[mCnt]->Fill(trueNuEnergy, recNuEnergy_cal[mCnt]);
-
-                }
-
-
-
-                ++eventCnt;
+                     h_Enu_reso[mCnt]->Fill((trueNuEnergy - recNuEnergy_cal[mCnt])/trueNuEnergy);
+        }
 
 
 
-                //for ( int kCnt(0); kCnt < calOptions; ++kCnt )
-                //        if (   ( recNuEnergy_cal[kCnt] >= eMin ) and ( recNuEnergy_cal[kCnt] < eMax )   )
-                //    {
-                //        ++eventCnt_cal[kCnt];
+        ++eventCnt;
 
-                //        const int ny(   static_cast<int>( (recNuEnergy_cal[kCnt] - eMin)/eStep )   );
-                //        CalMatrix(kCnt, nx, ny) += 1;
-                //    }
+
+
 
 
 
