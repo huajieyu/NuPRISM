@@ -98,6 +98,16 @@ void Main::Simplified_Gen::MakeFile(){
         chain_nuprism->GetEntry(iCnt);
         //TArray3D<double>& CalMatrix(0, 0, 0);
         //if(iCnt != 49892) continue;
+
+        // selection interaction type here
+        if(interactionType == 1 && t->qel !=1) {continue;}
+        if(interactionType == 2 && t->res !=1) {continue;}
+        if(interactionType == 3 && t->dis !=1) {continue;}
+        if(interactionType == 4 && t->mec !=1) {continue;}
+        if(interactionType == 5 && t->coh !=1) {continue;}
+
+
+
         double nuEnergy = t->Ev;
         const int nx = round( (nuEnergy - eMin)/eStep); 
 

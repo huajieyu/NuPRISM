@@ -19,9 +19,9 @@ for systname in calc_syst_list:
 
 	maker.SetOutputFile("/genie/app/users/jiangl/NuPRISM_output/output_"+systname+".root");
 
-	maker.SetNeutrinoFlavor(0);  # the options are 0(numu), 1(anumu), 2(nue, 3(anue)
+	maker.SetNeutrinoFlavor(1);  # the options are 1(numu), 2(anumu), 3(nue, 4(anue)  
 
-	maker.SetInteractionType(4); # the options are 0 (QE), 1 (RES), 2 (DIS) 3 (MEC) 4(ALL);
+	maker.SetInteractionType(4); # the options are 1 (QE), 2 (RES), 3 (DIS) 4 (MEC) 5(COH)0(ALL);
 
 	maker.SetExperimentName(systname);
 
