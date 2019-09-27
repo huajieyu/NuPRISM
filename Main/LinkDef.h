@@ -24,6 +24,10 @@
 
 #pragma link C++ class Main::sample+;
 #pragma link C++ class Main::Maker+;
+#pragma link C++ class Main::Simplified_Gen+;
+#pragma link C++ class Main::Analyse+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 

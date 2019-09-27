@@ -75,14 +75,14 @@ void Main::Simplified_Gen::MakeFile(){
     double trueNuEnergy(0.0), leptonEnergy(0.0);
     double recNuEnergy_cal[calOptions];
 
-    int eventCnt_cal[calOptions];
+    //int eventCnt_cal[calOptions];
 
     
 
 
     for ( int kCnt(0); kCnt < calOptions; ++kCnt )
     {
-        eventCnt_cal[kCnt] = 0;
+        //eventCnt_cal[kCnt] = 0;
 
         recNuEnergy_cal[kCnt] = 0.0;
     }
@@ -94,7 +94,10 @@ void Main::Simplified_Gen::MakeFile(){
     ///loop over all entries in the GENIE trees
     //for (int iCnt = 49992; iCnt < 49993; iCnt++)
     for (int iCnt = 0; iCnt < chain_nuprism->GetEntries(); ++iCnt)
-    {
+    {   
+
+        if(iCnt !=0) DrawProgressBar((double)iCnt/(double)chain_nuprism->GetEntries(), barWidth);
+
         chain_nuprism->GetEntry(iCnt);
         //TArray3D<double>& CalMatrix(0, 0, 0);
         //if(iCnt != 49892) continue;
@@ -108,8 +111,8 @@ void Main::Simplified_Gen::MakeFile(){
 
 
 
-        double nuEnergy = t->Ev;
-        const int nx = round( (nuEnergy - eMin)/eStep); 
+        //double nuEnergy = t->Ev;
+        //const int nx = round( (nuEnergy - eMin)/eStep); 
 
     
         finalParticleNumber = t->nf;
@@ -143,10 +146,10 @@ void Main::Simplified_Gen::MakeFile(){
         {  //std::cout<<"<<<<<<<<<<<<<<<<<PDG code is "<<t->pdgf[finalPartCnt] <<std::endl;
 
            ///calculate invariant mass here
-	    double invariantMass = sqrt( t->Ef[finalPartCnt]*t->Ef[finalPartCnt] - 
-					t->pxf[finalPartCnt]*t->pxf[finalPartCnt] - 
-					t->pyf[finalPartCnt]*t->pyf[finalPartCnt] - 
-					t->pzf[finalPartCnt]*t->pzf[finalPartCnt] );
+	    //double invariantMass = sqrt( t->Ef[finalPartCnt]*t->Ef[finalPartCnt] - 
+	    //				t->pxf[finalPartCnt]*t->pxf[finalPartCnt] - 
+	    //				t->pyf[finalPartCnt]*t->pyf[finalPartCnt] - 
+	    //				t->pzf[finalPartCnt]*t->pzf[finalPartCnt] );
         
             ///make sure that there are no nuclear remnants here!!!
             

@@ -84,7 +84,7 @@ namespace Base {
 
     void SetOutputFileName(std::string name);
 
-    void SetOutFir(std::string dir);
+    void SetOutDir(std::string dir);
 
     void PrintSmearingMatrixLatex();
 
