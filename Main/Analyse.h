@@ -77,6 +77,8 @@ namespace Main {
     std::string mc_inputfile_name = "";
     const int calOptions = 11;
     int n_bins_temp=-999;
+
+    std::vector<std::string> ith_neutroneff;
    
   };
 }

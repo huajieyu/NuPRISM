@@ -31,7 +31,7 @@ namespace Base{
 
    }
    void MigrationMatrixCalc::SetTrueRecoHistogram(TH2D *h)
-   {
+   { //std::cout<<h->GetBinContent(5,5)<<std::endl;
       _h_true_reco_mom = h;
    }
 
@@ -43,7 +43,7 @@ namespace Base{
    }
  
    TMatrix MigrationMatrixCalc::CalculateMigrationMatrix()
-   {
+   {  
       //n x m matrix
       //n= number of rows
       //m= number of columns

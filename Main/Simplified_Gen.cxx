@@ -255,6 +255,12 @@ void Main::Simplified_Gen::MakeFile(){
 
 
   file_out->cd();
+  
+  //for (auto iter : hmap_true_calc_temp) {
+  //  iter.second->Write();
+  //}
+  file_out->WriteObject(&hmap_true_calc_temp, "hmap_true_calc_temp");
+ 
   file_out->WriteObject(_event_histo_1d, "DUNENDEventHisto1D");
 
 
