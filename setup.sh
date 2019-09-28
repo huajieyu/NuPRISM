@@ -9,6 +9,8 @@ else
 fi
 export MYSW_BINDIR=$MYSW_DIR/bin
 export MYSW_BASEDIR=$MYSW_DIR/Base
+export MYSW_OUTDIR=$MYSW_DIR/output/
+
 # set the build dir
 unset MYSW_BUILDDIR
 if [[ -z $MYSW_BUILDDIR ]]; then

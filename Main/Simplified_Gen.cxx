@@ -83,8 +83,9 @@ void Main::Simplified_Gen::MakeFile(){
     for ( int kCnt(0); kCnt < calOptions; ++kCnt )
     {
         //eventCnt_cal[kCnt] = 0;
-
+	ith_neutroneff.push_back(std::to_string(kCnt*100)+"_percent");
         recNuEnergy_cal[kCnt] = 0.0;
+        hmap_true_calc_temp[ith_neutroneff.at(kCnt)]=new TH2D(Form("hmap_true_calc_temp_%d", kCnt), Form("hmap_true_calc_temp_%d", kCnt), 78, 0.2, 8.0, 78, 0.2, 8.0);
     }
 
     double neutronEnergy(0.0);
@@ -103,12 +104,12 @@ void Main::Simplified_Gen::MakeFile(){
         //if(iCnt != 49892) continue;
 
         // selection interaction type here
-        if(interactionType == 1 && t->qel !=1) {continue;}
+        /*if(interactionType == 1 && t->qel !=1) {continue;}
         if(interactionType == 2 && t->res !=1) {continue;}
         if(interactionType == 3 && t->dis !=1) {continue;}
         if(interactionType == 4 && t->mec !=1) {continue;}
         if(interactionType == 5 && t->coh !=1) {continue;}
-
+	*/
 
 
         //double nuEnergy = t->Ev;
@@ -232,6 +233,8 @@ void Main::Simplified_Gen::MakeFile(){
                     if(mCnt== calOptions -1 && -(recNuEnergy_cal[mCnt] - trueNuEnergy) > 0.5) {continue;}
                      _event_histo_1d->h_true_calc_Enu[mCnt]->Fill(trueNuEnergy, recNuEnergy_cal[mCnt]);
                      h_Enu_reso[mCnt]->Fill((trueNuEnergy - recNuEnergy_cal[mCnt])/trueNuEnergy);
+
+                    hmap_true_calc_temp[ith_neutroneff.at(mCnt)]->Fill(trueNuEnergy, recNuEnergy_cal[mCnt]);
         }
 
 

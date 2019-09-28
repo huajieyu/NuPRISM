@@ -34,25 +34,32 @@ namespace Main{
 	//get all the true_reco migraton matrix
 	TH2D* histo_temp;
         DUNENDEventHisto1D* _event_histo_1d_mc;
-
+	TH1D *h_Enu_reso_temp = (TH1D*)mc_inputfile->Get("h_Enu_reso_0");
+	std::cout<<h_Enu_reso_temp->GetNbinsX()<<std::endl;
 	for(int ind=0; ind<calOptions; ind++){
-
+		std::cout<<"libo test 000"<<ind<<std::endl;
 	
-		mc_inputfile -> GetObject("DUNENDEventhisto1D", _event_histo_1d_mc);
-		histo_temp = (TH2D*)_event_histo_1d_mc->h_true_calc_Enu[ind]->Clone();	
-	 	n_bins_temp=histo_temp->GetNbinsX();
+		//mc_inputfile -> GetObject("DUNENDEventHisto1D", _event_histo_1d_mc);
+		//histo_temp = (TH2D*)_event_histo_1d_mc->h_true_calc_Enu[ind]->Clone();	
+	 	n_bins_temp=78;
 
-		TMatrix S_2d; S_2d.Clear(); S_2d.ResizeTo(n_bins_temp+1, n_bins_temp+1); 
 
-		MigrationMatrixCalc migrationmatrix2d;
-		migrationmatrix2d.SetOutDir("histo_temp"+std::to_string(ind));         
-		migrationmatrix2d.SetNBins(n_bins_temp, n_bins_temp);
-		migrationmatrix2d.SetTrueRecoHistogram(histo_temp);
+
+
+
+
+
+		//TMatrix S_2d; S_2d.Clear(); S_2d.ResizeTo(n_bins_temp+1, n_bins_temp+1); 
+
+		//MigrationMatrixCalc migrationmatrix2d;
+		//migrationmatrix2d.SetOutDir("histo_temp"+std::to_string(ind));         
+		//migrationmatrix2d.SetNBins(n_bins_temp, n_bins_temp);
+		/*migrationmatrix2d.SetTrueRecoHistogram(histo_temp);
 		S_2d = migrationmatrix2d.CalculateMigrationMatrix();
 		migrationmatrix2d.PlotMatrix();
 		migrationmatrix2d.SetOutputFileName("migration_matrix_2d_"+std::to_string(ind)+".tex");
 		migrationmatrix2d.PrintSmearingMatrixLatex();
-		
+		*/
 	}
 
         //=======================================================================

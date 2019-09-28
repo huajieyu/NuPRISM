@@ -112,7 +112,9 @@ namespace Main {
 
     TH1D *h_Enu_reso[11];
 
+    std::vector<std::string> ith_neutroneff;
 
+    std::map<std::string, TH2D*> hmap_true_calc_temp;
 
     double eMin = 0.2;
     double eMax = 8.0;
