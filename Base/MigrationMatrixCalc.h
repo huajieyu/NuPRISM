@@ -78,6 +78,8 @@ namespace Base {
     ///
     TMatrix CalculateMigrationMatrix();
 
+    TMatrix CalculateMigrationMatrix_Globe();
+
     void SetTrueRecoHistogram(TH2D *h);
 
     void SetNBins(int n_var1_bins, int n_var2_bins);
@@ -87,6 +89,8 @@ namespace Base {
     void SetOutDir(std::string dir);
 
     void PrintSmearingMatrixLatex();
+
+    void PrintMigrationMatrix_Globe();
 
     void PlotMatrix();
   private:

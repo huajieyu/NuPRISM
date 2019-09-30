@@ -87,6 +87,48 @@ namespace Base{
 
 
    } //end of the function calculate migration matrix
+
+
+   TMatrix MigrationMatrixCalc::CalculateMigrationMatrix_Globe()
+   {  
+      //n x m matrix
+      //n= number of rows
+      //m= number of columns
+      //
+      //TMatrix S;
+      _S.Clear();
+      _S.ResizeTo(_n+1, _m+1); // over flow bin added
+
+      for(int j=0; j<_m+2; j++) {
+         int true_idx = j-1;
+         if(j==0 ) true_idx = _m;
+         if(j== _m+1) true_idx = _m;
+         
+         std::vector<double> p_v;
+         p_v.resize(_n+2);  //n+2 also added the over flow and under flow bin
+
+         //get the vector of p_v in true Enu bin and sum over all the elments
+         for (int i = 0; i < _n + 2; i++) {      // Reco bin        
+            p_v.at(i) = _h_true_reco_mom->GetBinContent(j, i);
+         } ///end of loop over i the reco bin
+         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         for (int i = 1; i < _n + 1; i++) {
+            _S[i - 1][true_idx] += p_v.at(i);
+         }
+         //Add over/under flow
+         _S[_n][true_idx] = p_v.at(0) + p_v.at(_n + 1);
+      }// true bin
+
+      if(_verbose) _S.Print();
+      return _S;
+
+
+   } //end of the function calculate migration matrix
+ 
+
+
+
+
    void MigrationMatrixCalc::PlotMatrix(){
 
 
@@ -178,7 +220,32 @@ namespace Base{
 
   }
  
+  void MigrationMatrixCalc::PrintMigrationMatrix_Globe()
+  {
 
+    if (!_f_out.is_open()) {
+      std::cout << "File not opened." << std::endl;
+      return;
+    }
+    for (int i = 0; i < _n + 1; i++) {
+      _f_out<<"{0, "<<_n<<",  ";
+      for (int j = 0; j < _m + 1; j++) {
+
+        _f_out << std::showpoint<<std::scientific<<std::setw(11)<<std::setprecision(3) << _S[i][j];
+        
+
+      }
+     if (i !=_n){
+      _f_out << "}: "<< std::endl;
+     }else {
+      _f_out << "}; "<<std::endl;
+     }
+    }
+
+
+
+
+  }
 
 
 }//end of base namespace

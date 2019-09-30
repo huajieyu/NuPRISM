@@ -52,11 +52,13 @@ namespace Main{
 		migrationmatrix2d.SetOutDir("histo_temp"+std::to_string(ind));         
 		migrationmatrix2d.SetNBins(n_bins_temp, n_bins_temp);
 		migrationmatrix2d.SetTrueRecoHistogram(hmap_tempmc[ith_neutroneff.at(ind)]);
-		S_2d = migrationmatrix2d.CalculateMigrationMatrix();
+		//S_2d = migrationmatrix2d.CalculateMigrationMatrix();
+		S_2d = migrationmatrix2d.CalculateMigrationMatrix_Globe();
 		//migrationmatrix2d.PlotMatrix();
 		migrationmatrix2d.SetOutputFileName("migration_matrix_2d_"+std::to_string(ind)+".tex");
-		migrationmatrix2d.PrintSmearingMatrixLatex();
-		
+		//migrationmatrix2d.PrintSmearingMatrixLatex();
+		migrationmatrix2d.PrintMigrationMatrix_Globe();
+			
 	}
 
         //=======================================================================
