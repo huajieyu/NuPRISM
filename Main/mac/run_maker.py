@@ -9,10 +9,10 @@ maker = Main.Maker()
 
 
 calc_syst_list = ["PerfectReconstruction_neutronsDetected"]
-#calc_syst_list = ["PerfectReconstruction_neutronsUndetected"]
-#calc_syst_list = ["OurSetup_neutronsDetected"]
-#calc_syst_list = ["OurSetup_neutronsUndetected"]
-#calc_syst_list = ["DUNE_FastMC"]
+calc_syst_list = ["PerfectReconstruction_neutronsUndetected"]
+calc_syst_list = ["OurSetup_neutronsDetected"]
+calc_syst_list = ["OurSetup_neutronsUndetected"]
+calc_syst_list = ["DUNE_FastMC"]
 
 for systname in calc_syst_list:
 	maker.SetInputFile("/pnfs/genie/persistent/users/jiangl/GENIE_sample/gntp.1000.gst.286.root");
@@ -25,7 +25,7 @@ for systname in calc_syst_list:
 
 	maker.SetExperimentName(systname);
 
-	maker.SetFSIOn(True);
+	#maker.SetFSIOn(True);
 
 
 

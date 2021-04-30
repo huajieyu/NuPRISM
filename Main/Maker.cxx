@@ -54,7 +54,7 @@ void Main::Maker::MakeFile()
 
   TH1D* histo_Fermi_mom;
 
-
+  //initialize histograms of Enu and Evis
   histo_Enu = new TH1D("histo_Enu", "histo_Enu", 100, 0.0, 10.0);
   histo_Evis = new TH1D("histo_Evis", "histo_Evis", 100, 0.0, 10.0);
   histo_Enu_CCQE = new TH1D("histo_Enu_CCQE", "histo_Enu_CCQE", 100, 0.0, 10.0);
@@ -96,7 +96,7 @@ void Main::Maker::MakeFile()
 
   const EventType event(allEvents);
 
-
+  //set the minimum value, maxmum value and bin steps of the migration matrix
   const double eMin = 0.2*GeV;
   const double eMax = 8.0*GeV;
    
@@ -105,7 +105,8 @@ void Main::Maker::MakeFile()
   const int eRes ( static_cast<int> ( (eMax - eMin)/eStep) + 1 ); //total number of bins
   
   const int calOptions = 5;
-
+  //declare the 2D array, and 3D matrix with the calOptions
+  //5 calOptions with different fraction of neutron detected
   TArray2D <double>KinMatrix(eRes, eRes, 0.0);
   TArray3D <double>CalMatrix(calOptions, eRes, eRes, 0.0);
 
@@ -117,6 +118,7 @@ void Main::Maker::MakeFile()
   double trueNuEnergy = 0.0;
   double leptonEnergy = 0.0;
   double leptonMomentum_x(0.0), leptonMomentum_y(0.0), leptonMomentum_z(0.0);
+  //recoil nucleus kinetic energy and calculated kinetic energy
   double recNuEnergy_kin(0.0);
   double recNuEnergy_cal[calOptions];
 
@@ -125,7 +127,7 @@ void Main::Maker::MakeFile()
   int eventCnt_cal[calOptions];
 
   double missingEnergy[calOptions];
-
+  //initialize the number of events of each caloptions 
   for ( int kCnt(0); kCnt < calOptions; ++kCnt )
   {
         eventCnt_cal[kCnt] = 0;
@@ -189,11 +191,12 @@ void Main::Maker::MakeFile()
 	if (iCnt != 0) DrawProgressBar((double)iCnt/(double)evts, barWidth);
 	chain_nuprism->GetEntry(iCnt);
 
-	std::cout<<"[Main::Maker]<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"<<std::endl;
+	std::cout<<"[Main::Maker] Fill Histograms of Enu, Fermi Momentum"<<std::endl;
+
 	histo_Enu->Fill(t->Ev);
 	_event_histo_1d->h_Enu->Fill(t->Ev);
      
-
+        
 	histo_Fermi_mom->Fill(TMath::Sqrt(t->pxn*t->pxn+t->pyn*t->pyn+t->pzn*t->pzn));
 	if(t->cc == 1 && t->qel == 1){
            _event_histo_1d->h_Enu_CCQE->Fill(t->Ev);
@@ -214,25 +217,25 @@ void Main::Maker::MakeFile()
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
+        
 	CRandomGen rnd;
  	CDetectorEffects detector;   
-     
+        //get the neutrino energy, number of different kind of particles 
 	double nuEnergy= t->Ev;
         std::cout<<"[Main::Maker] The incoming neutrino's true energy is "<<nuEnergy<<std::endl;
-        if(t->nfkp>0){
+        if(t->nfkp>0){  //print nfkp number of kaon plus
         std::cout<<"[Main::Maker] The Number of charged kaon+ is "<<t->nfkp<<"  iCnt = "<<iCnt<<std::endl; 
-        }else if(t->nfkm>0){
+        }else if(t->nfkm>0){ //print nfkm number of kaon minus
         std::cout<<"[Main::Maker] The Number of charged kaon- is "<<t->nfkm<<"  iCnt = "<<iCnt<<std::endl; 
-        }else if(t->nfk0>0){
+        }else if(t->nfk0>0){ //print nfko number of neutral kaons
         std::cout<<"[Main::Maker] The Number of charged kaon0 is "<<t->nfk0<<"  iCnt = "<<iCnt<<std::endl; 
         } 
         
 
-
+        //Get the bin number of a certain event
 
 	const int nx(   static_cast<int>( (nuEnergy - eMin)/eStep )   );
-
+ 	//eRes > the value in Base/DUNENDEventHist.cxx
 	if ( nx > eRes )
 	{
         std::cerr<<"The energy "<<nuEnergy<<" exceeds the considered maximal value!"<<std::endl;
@@ -242,14 +245,14 @@ void Main::Maker::MakeFile()
 
 	//const int intEnergy( static_cast<int>(nuEnergy/MeV) );
 	//const int eng( std::abs(intEnergy - nuEnergy/MeV) < 0.5 ? intEnergy : intEnergy + 1 );
-
+	//set the minimum and maxmum number of tracks in an event
 	const int minAddTrackNumber(   (event == multiTrack) ? 1 : 0   );///minimal number of tracks, in addition to the charged lepton's one
 	const int maxAddTrackNumber(   (event == oneTrack) ? 0 : 5   );///maximal number of tracks, in addition to the charged lepton's one   
 
 
 	
 
-	//get the  
+	//get the final state particles and neutrino energy
 	finalParticleNumber = t->nf;
 	trueNuEnergy  = t->Ev;
 
@@ -303,6 +306,7 @@ void Main::Maker::MakeFile()
 	//CDetectorEffects::ExperimentName experiment = PerfectReconstruction_neutronsDetected;
 	//CDetectorEffects::ExperimentName experiment = 0;
 	//ExperimentName ii_experiment = 0;
+	//Get the index of the options
 	int ii_experiment = -999;
         if( i_experiment == "PerfectReconstruction_neutronsDetected") {ii_experiment = 0;}
         if( i_experiment == "PerfectReconstruction_neutronsUndetected") {ii_experiment = 1;}
@@ -316,6 +320,7 @@ void Main::Maker::MakeFile()
         double m_Eff=0.0;
 	double m_Sigma=0.0;
 	double m_Momentum=0.0;
+        //deal with the lepton first, get the sigma and resolution
 	int leptonPDG = get_leptonPDG(t->neu);
      
 	detector.CDetectorEffects_getSigma(&leptonPDG, &v4mom, ii_experiment, &m_Res, &m_Eff,  &m_Sigma, &m_Momentum); 
@@ -361,7 +366,7 @@ void Main::Maker::MakeFile()
               continue;
 	}
 
-
+        //deal with the hadrons 
 	for (int finalPartCnt = 0; finalPartCnt < finalParticleNumber; finalPartCnt++)
 	{     
 		//std::cout<<"[Main::Maker]<<<<<<<<<finalPartCnt = "<<finalPartCnt<<" pdgcode is "<<t->pdgf[finalPartCnt]<<std::endl;

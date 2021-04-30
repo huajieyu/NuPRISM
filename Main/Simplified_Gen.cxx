@@ -125,6 +125,7 @@ void Main::Simplified_Gen::MakeFile(){
         if (finalParticleNumber < 0)
             continue;
 
+	//get the leading lepton energy of each options
         for (int jCnt(0); jCnt < calOptions; ++jCnt) {
             recNuEnergy_cal[jCnt] = leptonEnergy;
         }
@@ -155,6 +156,7 @@ void Main::Simplified_Gen::MakeFile(){
             ///make sure that there are no nuclear remnants here!!!
             
             ///protons
+            //add the total kinetic energy of all the protons
             if ( t->pdgf[finalPartCnt] == 2212 )
             {   //std::cout<<"[Simplified_Gen] << Oooooooooops find a proton ! "<<"Energy is "<<t->Ef[finalPartCnt]<<"  pMass= "<<pMass<<std::endl;
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ) {
@@ -177,7 +179,7 @@ void Main::Simplified_Gen::MakeFile(){
         		//calorimetricContribution[kCnt] += t->Ef[finalPartCnt] + invariantMass; 
 		}
             }
-
+            //deal with neutron kinetic energy
             else if ( t->pdgf[finalPartCnt] == 2112 )
             {    std::cout<<"[Simplified_Gen] << Oooooooooops find a neutron ! "<<std::endl; 
                 for ( int kCnt(0); kCnt < calOptions; ++kCnt ) {
