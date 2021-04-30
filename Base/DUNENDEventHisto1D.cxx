@@ -13,10 +13,12 @@ namespace Base {
       h_Enu_CCRES = new TH1D("h_Enu_CCRES", "h_Enu_CCRES", 100, 0.0, 10.0);
       h_Enu_CCDIS = new TH1D("h_Enu_CCDIS", "h_Enu_CCDIS", 100, 0.0, 10.0);
       h_Enu_CCMEC = new TH1D("h_Enu_CCMEC", "h_Enu_CCMEC", 100, 0.0, 10.0);
-
+      Int_t nbins = 5;
+      double nbins_Enu[6]={0.2, 0.4, 1.0, 2.0, 4.0, 7.0};
       for(int i=0; i<calOptions; i++){
-          h_true_calc_Enu[i]=new TH2D(Form("h_true_calc_Enu_%d", i), Form("h_true_calc_Enu_%d", i), 78, 0.2, 8.0, 78, 0.2,8.0);
-          h_true_calc_Enu[i]->GetYaxis()->SetTitle("Calculated E_{#nu}[GeV]");
+          //h_true_calc_Enu[i]=new TH2D(Form("h_true_calc_Enu_%d", i), Form("h_true_calc_Enu_%d", i), 78, 0.2, 8.0, 78, 0.2,8.0);
+          h_true_calc_Enu[i]=new TH2D(Form("h_true_calc_Enu_%d", i), Form("h_true_calc_Enu_%d", i), nbins, nbins_Enu, nbins, nbins_Enu);
+           h_true_calc_Enu[i]->GetYaxis()->SetTitle("Calculated E_{#nu}[GeV]");
           h_true_calc_Enu[i]->GetXaxis()->SetTitle("True E_{#nu}[GeV]");
       }
       h_muon_reso = new TH1D("h_muon_reso", "h_muon_reso", 50, -0.3, 0.3);
